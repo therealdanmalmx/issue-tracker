@@ -29,17 +29,13 @@ const IssuesPage = async ({ searchParams }: Props) => {
   });
 
   const issueCount = await prisma.issue.count({ where });
-
-  if (issueCount < 1) {
-    return <p>No issues found.</p>
-  }
   return (
     <Flex direction="column" gap="3">
       <IssueActions />
-      <IssueTable
-        searchParams={searchParams}
-        issues={issues}
-      />
+      {issueCount < 1 && (<p>No issues found.</p>)}
+      {issueCount >= 1 && (
+        <IssueTable searchParams={searchParams} issues={issues} />
+      )}
       <Pagination
         pageSize={pageSize}
         currentPage={page}
@@ -50,6 +46,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
 }
 
 export const dynamic = 'force-dynamic';
+// export const revalidate = 0;
 
 export default IssuesPage
 
