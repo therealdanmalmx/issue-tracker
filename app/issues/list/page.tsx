@@ -29,6 +29,10 @@ const IssuesPage = async ({ searchParams }: Props) => {
   });
 
   const issueCount = await prisma.issue.count({ where });
+
+  if (issueCount < 1) {
+    return <p>No issues found.</p>
+  }
   return (
     <Flex direction="column" gap="3">
       <IssueActions />
@@ -46,7 +50,6 @@ const IssuesPage = async ({ searchParams }: Props) => {
 }
 
 export const dynamic = 'force-dynamic';
-// export const revalidate = 0;
 
 export default IssuesPage
 
